@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import GPoints from ''
+import GPoints from '../components/graphicalPointsBuilder'
 export default {
     
 }

@@ -17,17 +17,6 @@
 <script>
 export default {
   mounted() {
-    const renderer = this.$refs.renderer
-    const box = this.$refs.box.mesh
-    renderer.onBeforeRender(() => {
-      box.rotation.x += 0.01
-    })
-
-    // scene
-    const geometry = new THREE.SphereGeometry( 5, 32, 32 );
-    const material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
-    const sphere = new THREE.Mesh( geometry, material );
-    scene.add( sphere );
   }
 }
 </script>
