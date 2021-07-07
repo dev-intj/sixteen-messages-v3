@@ -1,22 +1,13 @@
 <template>
-  <Renderer ref="renderer" antialias :orbit-ctrl="{ enableDamping: true }" resize="window">
-    <Camera :position="{ z: 10 }" />
-    <Scene>
-
-      <PointLight :position="{ y: 250, z: 250 }" />
-
-      <Sphere>
-        <LambertMaterial />
-      </Sphere>
-
-    </Scene>
-    
-  </Renderer>
+  <graphicalRepresentation/>
 </template>
 
 <script>
+import graphicalRepresentation from './pages/graphicalRepresentation.vue'
 export default {
-  mounted() {
+  name: 'app',
+  components: {
+    graphicalRepresentation
   }
 }
 </script>
