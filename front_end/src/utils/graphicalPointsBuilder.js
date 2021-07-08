@@ -20,7 +20,7 @@ function initPoints() {
   
   var positions = [];
   
-  for (var i = 0; i < 50000; i ++ ) {
+  for (var i = 0; i < 1000; i ++ ) {
     
     var vertex = randomPointInSphere( 50 );
     positions.push( [vertex.x, vertex.y, vertex.z] );

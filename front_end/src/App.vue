@@ -4,6 +4,7 @@
 
 <script>
 import graphicalRepresentation from './pages/graphicalRepresentation.vue'
+
 export default {
   name: 'app',
   components: {
