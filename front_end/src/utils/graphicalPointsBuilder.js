@@ -1,32 +1,111 @@
 import * as threejs from '../../node_modules/three/src/Three';
 
-const v = new threejs.Vector3();
+function sphereConstruct(radius,widthSegments,heightSegments) {
+  /* 
+  default settings:
+  radius = 1, 
+  widthSegments = 8, 
+  heightSegments = 6
+  */
 
-function randomPointInSphere( radius ) {
-	
-  const x = threejs.Math.randFloat( -1, 1 );
-  const y = threejs.Math.randFloat( -1, 1 );
-  const z = threejs.Math.randFloat( -1, 1 );
-  const normalizationFactor = 1 / Math.sqrt( x * x + y * y + z * z );
 
-  v.x = x * normalizationFactor * radius;
-  v.y = y * normalizationFactor * radius;
-  v.z = z * normalizationFactor * radius;
+  //setting variables
+  var radius = radius;
+  var widthSegments = widthSegments;
+  var heightSegments = heightSegments;
+  var phiStart = 0;
+  var phiLength = Math.PI * 2;
+  var thetaStart = 0;
+  var thetaLength = Math.PI;
 
-  return v;
-}
+  widthSegments = Math.max(3, Math.floor(widthSegments));
+  heightSegments = Math.max(2, Math.floor(heightSegments));
 
-function initPoints() {
-  
-  var positions = [];
-  
-  for (var i = 0; i < 1000; i ++ ) {
-    
-    var vertex = randomPointInSphere( 50 );
-    positions.push( [vertex.x, vertex.y, vertex.z] );
-    
+  const thetaEnd = Math.min(thetaStart + thetaLength, Math.PI);
+
+  let index = 0;
+  const grid = [];
+
+  const vertex = new threejs.Vector3();
+  const normal = new threejs.Vector3();
+
+  // buffers
+
+  const indices = [];
+  const vertices = [];
+  const normals = [];
+  const uvs = [];
+
+
+  // generate vertices, normals and uvs
+
+  for (let iy = 0; iy <= heightSegments; iy++) {
+
+    const verticesRow = [];
+
+    const v = iy / heightSegments;
+
+    // special case for the poles
+
+    let uOffset = 0;
+
+    if (iy == 0 && thetaStart == 0) {
+
+      uOffset = 0.5 / widthSegments;
+
+    } else if (iy == heightSegments && thetaEnd == Math.PI) {
+
+      uOffset = - 0.5 / widthSegments;
+
+    }
+
+    for (let ix = 0; ix <= widthSegments; ix++) {
+
+      const u = ix / widthSegments;
+
+      // vertex
+
+      vertex.x = - radius * Math.cos(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength);
+      vertex.y = radius * Math.cos(thetaStart + v * thetaLength);
+      vertex.z = radius * Math.sin(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength);
+
+      vertices.push([vertex.x, vertex.y, vertex.z]);
+
+      // normal
+
+      normal.copy(vertex).normalize();
+      normals.push(normal.x, normal.y, normal.z);
+
+      // uv
+
+      uvs.push(u + uOffset, 1 - v);
+
+      verticesRow.push(index++);
+
+    }
+
+    grid.push(verticesRow);
+
   }
-  return positions;
+
+  // indices
+
+  for (let iy = 0; iy < heightSegments; iy++) {
+
+    for (let ix = 0; ix < widthSegments; ix++) {
+
+      const a = grid[iy][ix + 1];
+      const b = grid[iy][ix];
+      const c = grid[iy + 1][ix];
+      const d = grid[iy + 1][ix + 1];
+
+      if (iy !== 0 || thetaStart > 0) indices.push(a, b, d);
+      if (iy !== heightSegments - 1 || thetaEnd < Math.PI) indices.push(b, c, d);
+
+    }
+
+  }
+  return vertices;
 }
 
-export default initPoints;
+export default sphereConstruct;

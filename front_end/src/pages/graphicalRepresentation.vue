@@ -9,14 +9,13 @@
     <Scene>
       <PointLight :position="{ y: 250, z: 250 }" />
 
-      <ul>
-        <li v-for="item in gpoints" :key="item.message">
+        <div v-for="item in gpoints" :key="item.message">
          
           <Box :position="{ x: item[0], y: item[1], z: item[2] }" > 
            <LambertMaterial />
           </Box>
-        </li>
-      </ul>
+        </div>
+
     </Scene>
   </Renderer>
 </template>
@@ -29,7 +28,9 @@ import initPoints from "../utils/graphicalPointsBuilder";
 export default {
    components: { Camera, Renderer, Scene },
   data() {
-    const gpoints = initPoints();
+    //default settings are 1,8,6
+    const gpoints = initPoints(35,8,6);
+
     console.log(gpoints);
     return {
       gpoints
