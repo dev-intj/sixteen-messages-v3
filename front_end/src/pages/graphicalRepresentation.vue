@@ -11,9 +11,9 @@
 
         <div v-for="item in gpoints" :key="item.message">
          
-          <Box :position="{ x: item[0], y: item[1], z: item[2] }" > 
+          <Sphere :position="{ x: item[0], y: item[1], z: item[2] }" > 
            <LambertMaterial />
-          </Box>
+          </Sphere>
         </div>
 
     </Scene>
@@ -21,15 +21,12 @@
 </template>
 
 <script>
-import { Camera, Renderer, Scene } from 'troisjs';
-
 import initPoints from "../utils/graphicalPointsBuilder";
 
 export default {
-   components: { Camera, Renderer, Scene },
   data() {
     //default settings are 1,8,6
-    const gpoints = initPoints(35,8,6);
+    const gpoints = initPoints(20,12,10,0);
 
     console.log(gpoints);
     return {

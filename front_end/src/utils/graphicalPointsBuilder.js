@@ -1,18 +1,12 @@
 import * as threejs from '../../node_modules/three/src/Three';
 
-function sphereConstruct(radius,widthSegments,heightSegments) {
-  /* 
-  default settings:
-  radius = 1, 
-  widthSegments = 8, 
-  heightSegments = 6
-  */
-
+function sphereConstruct(radius, widthSegments, heightSegments, sliceSegments) {
 
   //setting variables
   var radius = radius;
   var widthSegments = widthSegments;
   var heightSegments = heightSegments;
+  var sliceSegments = sliceSegments;
   var phiStart = 0;
   var phiLength = Math.PI * 2;
   var thetaStart = 0;
@@ -27,6 +21,12 @@ function sphereConstruct(radius,widthSegments,heightSegments) {
   const grid = [];
 
   const vertex = new threejs.Vector3();
+
+  //random calculations
+  const random_radius = new threejs.Vector3();
+  const max_random = 2;
+  const min_random = -2;
+
   const normal = new threejs.Vector3();
 
   // buffers
@@ -63,13 +63,26 @@ function sphereConstruct(radius,widthSegments,heightSegments) {
 
       const u = ix / widthSegments;
 
-      // vertex
+      if (sliceSegments > 0 ){
+      for (let iz = 0; iz <= sliceSegments; iz++) {
+        // vertex
+        vertex.x = - ((radius / sliceSegments) * iz) * Math.cos(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength);
+        vertex.y = ((radius / sliceSegments) * iz) * Math.cos(thetaStart + v * thetaLength);
+        vertex.z = ((radius / sliceSegments) * iz) * Math.sin(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength);
+        
+        vertices.push([vertex.x, vertex.y, vertex.z]);
+      }
+      }else{
+        // vertex
+        vertex.x = - radius * Math.cos(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength);
+        vertex.y = radius * Math.cos(thetaStart + v * thetaLength);
+        vertex.z = radius * Math.sin(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength);
+        
+        vertices.push([vertex.x, vertex.y, vertex.z]);
+      }
+      
 
-      vertex.x = - radius * Math.cos(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength);
-      vertex.y = radius * Math.cos(thetaStart + v * thetaLength);
-      vertex.z = radius * Math.sin(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength);
 
-      vertices.push([vertex.x, vertex.y, vertex.z]);
 
       // normal
 
