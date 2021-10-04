@@ -17,9 +17,6 @@ function sphereConstruct(radius, widthSegments, heightSegments, sliceSegments) {
 
   const thetaEnd = Math.min(thetaStart + thetaLength, Math.PI);
 
-  let index = 0;
-  const grid = [];
-
   const vertex = new threejs.Vector3();
 
   //random calculations
@@ -28,96 +25,44 @@ function sphereConstruct(radius, widthSegments, heightSegments, sliceSegments) {
   const min_random = -2;
 
   const normal = new threejs.Vector3();
-
-  // buffers
-
-  const indices = [];
+  
+  // generate vertices
   const vertices = [];
-  const normals = [];
-  const uvs = [];
-
-
-  // generate vertices, normals and uvs
 
   for (let iy = 0; iy <= heightSegments; iy++) {
 
-    const verticesRow = [];
-
     const v = iy / heightSegments;
-
-    // special case for the poles
-
-    let uOffset = 0;
-
-    if (iy == 0 && thetaStart == 0) {
-
-      uOffset = 0.5 / widthSegments;
-
-    } else if (iy == heightSegments && thetaEnd == Math.PI) {
-
-      uOffset = - 0.5 / widthSegments;
-
-    }
 
     for (let ix = 0; ix <= widthSegments; ix++) {
 
       const u = ix / widthSegments;
 
+      // inside sphere calculations
       if (sliceSegments > 0 ){
       for (let iz = 0; iz <= sliceSegments; iz++) {
+
         // vertex
-        vertex.x = - ((radius / sliceSegments) * iz) * Math.cos(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength);
-        vertex.y = ((radius / sliceSegments) * iz) * Math.cos(thetaStart + v * thetaLength);
-        vertex.z = ((radius / sliceSegments) * iz) * Math.sin(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength);
+
+        let current_radius = (radius / sliceSegments) * iz + (radius * iz)
+        
+        vertex.x = - current_radius * Math.cos(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength);
+        vertex.y = current_radius * Math.cos(thetaStart + v * thetaLength);
+        vertex.z = current_radius * Math.sin(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength);
         
         vertices.push([vertex.x, vertex.y, vertex.z]);
+        
       }
       }else{
         // vertex
         vertex.x = - radius * Math.cos(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength);
         vertex.y = radius * Math.cos(thetaStart + v * thetaLength);
         vertex.z = radius * Math.sin(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength);
-        
+
         vertices.push([vertex.x, vertex.y, vertex.z]);
       }
-      
-
-
-
-      // normal
-
-      normal.copy(vertex).normalize();
-      normals.push(normal.x, normal.y, normal.z);
-
-      // uv
-
-      uvs.push(u + uOffset, 1 - v);
-
-      verticesRow.push(index++);
-
     }
-
-    grid.push(verticesRow);
-
   }
-
-  // indices
-
-  for (let iy = 0; iy < heightSegments; iy++) {
-
-    for (let ix = 0; ix < widthSegments; ix++) {
-
-      const a = grid[iy][ix + 1];
-      const b = grid[iy][ix];
-      const c = grid[iy + 1][ix];
-      const d = grid[iy + 1][ix + 1];
-
-      if (iy !== 0 || thetaStart > 0) indices.push(a, b, d);
-      if (iy !== heightSegments - 1 || thetaEnd < Math.PI) indices.push(b, c, d);
-
-    }
-
-  }
+  
   return vertices;
 }
 
