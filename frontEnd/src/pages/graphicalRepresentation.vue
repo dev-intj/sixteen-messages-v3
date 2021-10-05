@@ -26,9 +26,7 @@ import initPoints from "../utils/graphicalPointsBuilder";
 export default {
   data() {
     //default settings are 1,8,6
-    const gpoints = initPoints(20,12,10,3);
-
-    console.log(gpoints);
+    const gpoints = initPoints(25,12,10,3);
     return {
       gpoints
     };
