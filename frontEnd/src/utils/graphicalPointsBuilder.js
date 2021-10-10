@@ -1,7 +1,4 @@
-import * as threejs from '../../node_modules/three/src/Three';
-
 function sphereConstruct(radius, widthSegments, heightSegments, sliceSegments) {
-
   //setting variables
   var radius = radius;
   var widthSegments = widthSegments;
@@ -15,14 +12,8 @@ function sphereConstruct(radius, widthSegments, heightSegments, sliceSegments) {
   widthSegments = Math.max(3, Math.floor(widthSegments));
   heightSegments = Math.max(2, Math.floor(heightSegments));
 
-  const thetaEnd = Math.min(thetaStart + thetaLength, Math.PI);
+  const vertex = []
 
-  const vertex = new threejs.Vector3();
-
-  //random calculations
-  const max_random = 2;
-  const min_random = -2;
-  
   // generate vertices
   const vertices = [];
 
@@ -67,9 +58,19 @@ function sphereConstruct(radius, widthSegments, heightSegments, sliceSegments) {
     }
   }
 
-  //random calculations 
+  //random calculations
+  const max_random = 40;
+  const max_random_x = 40;
+  const max_random_y= 40;
+  const max_random_z = 40;
+
   for (let vi = 0; vi < vertices.length; vi++) {
-    
+    let random_x = Math.ceil(Math.random() * max_random) * (Math.round(Math.random()) ? 1 : -1)
+    let random_y = Math.ceil(Math.random() * max_random) * (Math.round(Math.random()) ? 1 : -1)
+    let random_z = Math.ceil(Math.random() * max_random) * (Math.round(Math.random()) ? 1 : -1)
+    vertices[vi][0] += random_x
+    vertices[vi][1] += random_y
+    vertices[vi][2] += random_z
   }
 
   //maybe I should spawn one message on the 0,0,0 that will act as creator message

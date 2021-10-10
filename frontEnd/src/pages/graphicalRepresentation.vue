@@ -9,13 +9,15 @@
     <Scene>
       <PointLight :position="{ y: 250, z: 250 }" />
 
-        <div v-for="item in gpoints" :key="item.message">
-         
-          <Sphere :position="{ x: item[0], y: item[1], z: item[2] }" > 
-           <LambertMaterial />
-          </Sphere>
-        </div>
+      <Sphere
+        v-for="(item, index) in gpoints"
+        :key="'item_' + index"
+        :position="{ x: item[0], y: item[1], z: item[2] }"
+      >
+        <PhysicalMaterial color="#ffffff" />
+      </Sphere>
 
+      
     </Scene>
   </Renderer>
 </template>
@@ -25,11 +27,32 @@ import initPoints from "../utils/graphicalPointsBuilder";
 
 export default {
   data() {
-    //default settings are 1,8,6
-    const gpoints = initPoints(25,12,10,3);
     return {
-      gpoints
+      gpoints: [],
     };
+  },
+  mounted() {
+    //default settings are 1,8,6
+    this.gpoints = initPoints(15, 15, 15, 15);
+    this.fetchMessages();
+  },
+  methods: {
+    fetchCreatorMessage() {
+
+    },
+    fetchMessages() {
+      // Make a request for a user with a given ID
+      axios({
+        url: `/api/message/`,
+        method: "get",
+      })
+        .then((response) => {
+          if (response.status == 200 || response.status == 201) {
+            console.log(response.data);
+          }
+        })
+        .catch((error) => {});
+    },
   },
 };
 </script>
