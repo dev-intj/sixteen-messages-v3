@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path,include
 from rest_framework import routers
 
-from api.viewsets import ProfileViewset,MessageViewset,AccountViewset
+from api.viewsets.viewsets import ProfileViewset,MessageViewset,AccountViewset
 
 router = routers.SimpleRouter()
 

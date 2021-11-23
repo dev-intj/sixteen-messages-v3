@@ -1,3 +1,6 @@
 venv/
 */node_modules/
 deprecated/
+*/__pycache__/*
+*.pyc
+*.pyo

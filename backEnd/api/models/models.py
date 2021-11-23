@@ -4,8 +4,6 @@ from django.utils import timezone
 from django.db.models.signals import post_save
 from django.conf import settings
 
-def get_sentinel_user():
-    return Profile().objects.get_or_create(username='deleted')[0]
 class Language(models.Model):
     #https://www.science.co.il/language/Codes.php
     english_name = models.CharField(max_length=16)
@@ -33,7 +31,7 @@ class Profile(models.Model):
     mbtiType = models.CharField(max_length = 6,blank=True)
     enneagram = models.CharField(max_length = 3,blank=True)
     friends = models.ManyToManyField("Profile", blank=True)
-
+    
     def __str__(self):
         return self.username
 
@@ -45,15 +43,18 @@ class FriendRequest(models.Model):
 	def __str__(self):
 		return "From {}, to {}".format(self.from_user.username, self.to_user.username)
 
+def get_sentinel_user():
+    return Profile().objects.get_or_create(username='deleted')[0]
+
 class Message(models.Model):
     profile = models.ForeignKey(
         Profile,
         on_delete=models.SET(get_sentinel_user)
     )
-    language = models.ForeignKey(Language,on_delete=models.CASCADE,)
+    language = models.ForeignKey(Language,on_delete=models.CASCADE)
     message = models.CharField(max_length = 300)
     language = models.CharField(max_length=3,default="EN")
     date_created = models.DateTimeField(auto_now_add=True)
-
+    
     def __str__(self):
         return "Type:{}, message {}".format(self.profile.mbtiType,self.message)

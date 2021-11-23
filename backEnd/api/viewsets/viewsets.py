@@ -1,8 +1,8 @@
 from rest_framework import viewsets,status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from . import models
-from . import serializers
+from ..models import models
+from ..serializers import serializers
 from django_filters.rest_framework import DjangoFilterBackend
 from django.views.decorators.csrf import csrf_exempt
 

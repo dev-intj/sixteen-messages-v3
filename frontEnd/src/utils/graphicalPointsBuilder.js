@@ -72,7 +72,6 @@ function sphereConstruct(radius, widthSegments, heightSegments, sliceSegments) {
     vertices[vi][1] += random_y
     vertices[vi][2] += random_z
   }
-
   //maybe I should spawn one message on the 0,0,0 that will act as creator message
   return vertices;
 }
