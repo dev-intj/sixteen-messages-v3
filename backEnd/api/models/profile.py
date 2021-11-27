@@ -8,7 +8,7 @@ def get_default_profile_image():
 
 class Profile(models.Model):
     user = models.OneToOneField(
-        "api.User",
+        "api.CustomUser",
         db_index=True,
         on_delete=models.PROTECT,
         related_name="user",
@@ -19,6 +19,10 @@ class Profile(models.Model):
     profile_image = models.ImageField(max_length=255, upload_to=get_profile_image_filepath,null=True,blank=True,default=get_default_profile_image)
     hide_name = models.BooleanField(default=True)
     hide_email = models.BooleanField(default=True)
+    
+    class Meta:
+        app_label="api"
+        db_table='profile'
     
     def __str__(self):
         return str(self.user)

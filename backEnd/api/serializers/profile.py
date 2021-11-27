@@ -9,7 +9,6 @@ class ProfileSerializer(serializers.ModelSerializer):
     profile_image = serializers.ImageField(required=False)
     hide_name = serializers.BooleanField(required=True)
     hide_email = serializers.BooleanField(required=True)
-    
     class Meta:
         model = Profile
         fields = (
@@ -19,5 +18,5 @@ class ProfileSerializer(serializers.ModelSerializer):
             "last_name",
             "profile_image",
             "hide_name",
-            "hide_email"
+            "hide_email",
         )
