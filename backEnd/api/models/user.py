@@ -5,7 +5,7 @@ class User(AbstractUser):
     username = models.CharField(max_length=28,unique=True)
     email = models.EmailField(unique=True, max_length=64, db_index=True)
     date_created = models.DateTimeField(auto_now_add=True)
-    date_updated = models.DecimalField(auto_now=True)
+    date_updated = models.DateTimeField(auto_now=True)
     # required from abstract user
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
@@ -16,4 +16,10 @@ class User(AbstractUser):
         ordering = ["id"]
 
     def __str__(self):
-        return self.full_name
+        return self.username
+    
+    def has_perm(self,perm,obj=None):
+        return self.is_admin
+    
+    def has_module_perms(self, app_label):
+        return False
