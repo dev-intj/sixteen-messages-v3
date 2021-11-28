@@ -26,7 +26,7 @@ class UserManager(BaseUserManager):
 
 
 class CustomUser(AbstractUser, PermissionsMixin):
-    username = models.CharField(max_length=28, unique=True)
+    username = models.CharField(max_length=30, unique=True)
     email = models.EmailField(max_length=64, unique=True, db_index=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
@@ -41,8 +41,8 @@ class CustomUser(AbstractUser, PermissionsMixin):
     REQUIRED_FIELDS = ['email']
 
     class Meta:
-        app_label="api"
         db_table='users'
+        app_label = 'SixteenMessagesAPI'
 
     def __str__(self):
         return self.username

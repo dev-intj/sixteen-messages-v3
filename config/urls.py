@@ -1,13 +1,17 @@
 from django.conf.urls import include,url
 from django.urls import path
 from rest_framework.routers import DefaultRouter
-from api.viewsets import ProfileViewset
+from SixteenMessagesAPI.viewsets import ProfileViewset,UserViewset
 from allauth.account.views import confirm_email
 
 router = DefaultRouter()
 
 router.register(
     r"profile",ProfileViewset,basename="profile"
+)
+
+router.register(
+    r"user",UserViewset,basename="user"
 )
 
 urlpatterns = [

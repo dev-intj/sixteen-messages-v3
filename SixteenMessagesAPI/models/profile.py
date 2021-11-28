@@ -8,7 +8,7 @@ def get_default_profile_image():
 
 class Profile(models.Model):
     user = models.OneToOneField(
-        "api.CustomUser",
+        "SixteenMessagesAPI.CustomUser",
         db_index=True,
         on_delete=models.PROTECT,
         related_name="user",
@@ -21,8 +21,8 @@ class Profile(models.Model):
     hide_email = models.BooleanField(default=True)
     
     class Meta:
-        app_label="api"
         db_table='profile'
+        app_label = 'SixteenMessagesAPI'
     
     def __str__(self):
         return str(self.user)

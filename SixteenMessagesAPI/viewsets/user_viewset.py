@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from ..serializers import UserSerializer
+from SixteenMessagesAPI.serializers import UserSerializer
 from rest_framework import viewsets, mixins, status
 from rest_framework.response import Response
 from drf_yasg import openapi
@@ -23,6 +23,9 @@ class UserViewset(
     
     def create(self, request, *args, **kwargs):
         serializer = UserSerializer(data=request.data)
+        
         serializer.is_valid(True)
-        user = serializer.save(self)
+        
+        user = serializer.save()
+        
         return Response(data=user,status=status.HTTP_200_OK)

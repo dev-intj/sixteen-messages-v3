@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.models import Profile
+from SixteenMessagesAPI.models import Profile
 from .user import UserSerializer
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -9,6 +9,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     profile_image = serializers.ImageField(required=False)
     hide_name = serializers.BooleanField(required=True)
     hide_email = serializers.BooleanField(required=True)
+    user = UserSerializer()
     class Meta:
         model = Profile
         fields = (
@@ -19,4 +20,5 @@ class ProfileSerializer(serializers.ModelSerializer):
             "profile_image",
             "hide_name",
             "hide_email",
+            "user"
         )
