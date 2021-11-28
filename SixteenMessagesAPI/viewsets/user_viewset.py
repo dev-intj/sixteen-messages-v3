@@ -18,7 +18,7 @@ class UserViewset(
 
     def list(self,request,*args, **kwargs):
         serializer = UserSerializer(many=True)
-        
+
         return Response(data=serializer.data, status=status.HTTP_200_OK)
     
     def create(self, request, *args, **kwargs):

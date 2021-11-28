@@ -2,8 +2,8 @@ from rest_framework import viewsets, mixins, status
 from rest_framework.response import Response
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
-from SixteenMessagesAPI.models import Profile
-from SixteenMessagesAPI.serializers import ProfileSerializer,UserSerializer
+from ..models import Profile
+from ..serializers import ProfileSerializer,UserSerializer
 
 class ProfileViewset(viewsets.GenericViewSet):
     queryset = Profile.objects.all()
