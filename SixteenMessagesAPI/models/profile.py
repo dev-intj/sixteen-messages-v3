@@ -16,12 +16,13 @@ class Profile(models.Model):
     
     first_name = models.CharField(blank=True,max_length=30)
     last_name = models.CharField(blank=True,max_length=30)
+    public_username = models.CharField(max_length=30, unique=True)
     profile_image = models.ImageField(max_length=255, upload_to=get_profile_image_filepath,null=True,blank=True,default=get_default_profile_image)
     hide_name = models.BooleanField(default=True)
     hide_email = models.BooleanField(default=True)
     
     class Meta:
-        db_table='profile'
+        db_table = 'profiles'
         app_label = 'SixteenMessagesAPI'
     
     def __str__(self):

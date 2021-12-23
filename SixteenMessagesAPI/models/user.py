@@ -41,7 +41,7 @@ class CustomUser(AbstractUser, PermissionsMixin):
     REQUIRED_FIELDS = ['email']
 
     class Meta:
-        db_table='users'
+        db_table = 'users'
         app_label = 'SixteenMessagesAPI'
 
     def __str__(self):
